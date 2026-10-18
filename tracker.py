@@ -1,4 +1,7 @@
+import json
 from datetime import date
+from pathlib import Path
+
 from habit import Habit
 class Tracker:
     def __init__(self):
@@ -37,4 +40,17 @@ class Tracker:
             )
         return lines
 
+    def save(self, path : Path) -> None:
+        """Write all habits to a JSON file."""
+        path.parent.mkdir(parents=True, exist_ok=True)
+        data = [habit.to_dict() for habit in self.habits.values()]
+        path.write_text(json.dumps(data, indent = 2), encoding = "utf-8")
 
+    def load(self, path:Path) -> None:
+        """Read habits from a JSON file. Does nothing if the file doesn't exist..."""
+        if not path.exists():
+            return
+        data = json.loads(path.read_text(encoding = "utf-8"))
+        for item in data:
+            habit = Habit.from_dict(item)
+            self.habits[habit.name.lower()] = habit

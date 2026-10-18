@@ -40,3 +40,17 @@ class Habit:
             longest = max(longest, current)
             previous = day
         return longest
+
+    def to_dict(self) -> dict:
+        """Turn the habit into plain data that can be saved as JSON..."""
+        return {
+            "name": self.name,
+            "days": sorted(day.isoformat() for day in self.completed_days ),
+        }
+    @classmethod
+    def from_dict(cls,data:dict)-> "Habit":
+        """Rebuild a habit from saved data..."""
+        habit = cls(data["name"])
+        habit.completed_days = {date.fromisoformat(d) for d in data["days"]}
+        return habit
+
