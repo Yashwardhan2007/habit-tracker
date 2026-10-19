@@ -1,7 +1,6 @@
 from datetime import date
 from pathlib import Path
 
-from habit import Habit
 from tracker import Tracker
 
 DATA_FILE = Path("data/habits.json")
@@ -12,10 +11,11 @@ ________ HABIT TRACKER _______
 2. Mark a Habit as done today : 
 3. Mark a Habit as done on another date : 
 4. Show streaks :
-0. QUITT!!!!
+0. QUIT!!!!
 """
 
-def ask_date(prompt : str) -> date | None:
+
+def ask_date(prompt: str) -> date | None:
     """Ask for a date like 2026-10-18. Return None if the input is invalid."""
     text = input(prompt).strip()
     try:
@@ -23,6 +23,8 @@ def ask_date(prompt : str) -> date | None:
     except ValueError:
         print("Please use the format YYYY-MM-DD, for eg: 2026-10-18.")
         return None
+
+
 def main() -> None:
     tracker = Tracker()
     tracker.load(DATA_FILE)
